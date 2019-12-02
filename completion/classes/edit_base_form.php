@@ -193,7 +193,7 @@ abstract class core_completion_edit_base_form extends moodleform {
         if ($this->support_views()) {
             $mform->addElement('advcheckbox', 'completionview', get_string('completionview', 'completion'),
                 get_string('completionview_desc', 'completion'));
-            $mform->disabledIf('completionview', 'completion', 'ne', COMPLETION_TRACKING_AUTOMATIC);
+            $mform->hideIf('completionview', 'completion', 'ne', COMPLETION_TRACKING_AUTOMATIC);
             $autocompletionpossible = true;
         }
 
@@ -201,14 +201,14 @@ abstract class core_completion_edit_base_form extends moodleform {
         if ($this->support_grades()) {
             $mform->addElement('advcheckbox', 'completionusegrade', get_string('completionusegrade', 'completion'),
                 get_string('completionusegrade_desc', 'completion'));
-            $mform->disabledIf('completionusegrade', 'completion', 'ne', COMPLETION_TRACKING_AUTOMATIC);
+            $mform->hideIf('completionusegrade', 'completion', 'ne', COMPLETION_TRACKING_AUTOMATIC);
             $mform->addHelpButton('completionusegrade', 'completionusegrade', 'completion');
             $autocompletionpossible = true;
         }
 
         // Automatic completion according to module-specific rules.
         foreach ($this->add_custom_completion_rules() as $element) {
-            $mform->disabledIf($element, 'completion', 'ne', COMPLETION_TRACKING_AUTOMATIC);
+            $mform->hideIf($element, 'completion', 'ne', COMPLETION_TRACKING_AUTOMATIC);
             $autocompletionpossible = true;
         }
 
@@ -223,7 +223,7 @@ abstract class core_completion_edit_base_form extends moodleform {
         $mform->addElement('date_time_selector', 'completionexpected',
             get_string('completionexpected', 'completion'), ['optional' => true]);
         $mform->addHelpButton('completionexpected', 'completionexpected', 'completion');
-        $mform->disabledIf('completionexpected', 'completion', 'eq', COMPLETION_TRACKING_NONE);
+        $mform->hideIf('completionexpected', 'completion', 'eq', COMPLETION_TRACKING_NONE);
 
         if ($conflicts = $this->get_modules_with_hidden_rules()) {
             $mform->addElement('static', 'qwerty', '', get_string('hiddenrules', 'completion', join(', ', $conflicts)));
@@ -274,7 +274,12 @@ abstract class core_completion_edit_base_form extends moodleform {
      */
     public function get_data() {
         $data = parent::get_data();
-        if ($data && $this->hascustomrules) {
+        if ($data) {
+        $autocompletion = !empty($data->completion) &&
+                $data->completion == COMPLETION_TRACKING_AUTOMATIC;
+        if (!$autocompletion) {
+            $data->completionview = 0;
+        }
             $this->get_module_form()->data_postprocessing($data);
         }
         return $data;
