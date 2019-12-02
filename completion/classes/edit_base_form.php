@@ -275,13 +275,14 @@ abstract class core_completion_edit_base_form extends moodleform {
     public function get_data() {
         $data = parent::get_data();
         if ($data) {
-        $autocompletion = !empty($data->completion) &&
-                $data->completion == COMPLETION_TRACKING_AUTOMATIC;
-        if (!$autocompletion) {
-            $data->completionview = 0;
-        }
+            $autocompletion = !empty($data->completion) &&
+            $data->completion == COMPLETION_TRACKING_AUTOMATIC;
+                if (!$autocompletion) {
+                $data->completionview = 0;
+                }
+            if ($this->hascustomrules)
             $this->get_module_form()->data_postprocessing($data);
-        }
+            }
         return $data;
     }
 }
