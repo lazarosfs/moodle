@@ -679,7 +679,10 @@ function groups_allgroups_course_menu($course, $urlroot, $update = false, $activ
         $groupsmenu[0] = get_string('allparticipants');
         $allowedgroups = groups_get_all_groups($course->id, 0, $course->defaultgroupingid);
     } else {
-        $allowedgroups = groups_get_all_groups($course->id, $USER->id, $course->defaultgroupingid);
+	    if ((has_capability('moodle/course:viewparticipants',$context)) &&
+			    ($course->groupmode == NOGROUPS))
+		    $groupsmenu[0] = get_string('allparticipants');
+	    $allowedgroups = groups_get_all_groups($course->id, $USER->id, $course->defaultgroupingid);
     }
 
     $groupsmenu += groups_list_to_menu($allowedgroups);

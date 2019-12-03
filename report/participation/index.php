@@ -112,7 +112,8 @@ $select = groups_allgroups_course_menu($course, $baseurl, true, $currentgroup);
 
 // User cannot see any group.
 if (empty($select)) {
-    echo $OUTPUT->heading(get_string("notingroup"));
+	if ($course->groupmode != 0)
+		echo $OUTPUT->heading(get_string("notingroup"));
     echo $OUTPUT->footer();
     exit;
 } else {
