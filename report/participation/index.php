@@ -30,6 +30,7 @@ require_once($CFG->dirroot.'/report/participation/locallib.php');
 
 define('DEFAULT_PAGE_SIZE', 20);
 define('SHOW_ALL_PAGE_SIZE', 5000);
+define('NOGROUPS', 0);
 
 // Release session lock.
 \core\session\manager::write_close();
@@ -112,7 +113,7 @@ $select = groups_allgroups_course_menu($course, $baseurl, true, $currentgroup);
 
 // User cannot see any group.
 if (empty($select)) {
-	if ($course->groupmode != 0)
+	if ($course->groupmode != NOGROUPS)
 		echo $OUTPUT->heading(get_string("notingroup"));
     echo $OUTPUT->footer();
     exit;
