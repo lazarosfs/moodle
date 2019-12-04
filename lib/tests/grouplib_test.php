@@ -835,12 +835,14 @@ class core_grouplib_testcase extends advanced_testcase {
         // Since user is not a part of this group and doesn't have accessallgroups permission,
         // the html should be empty.
         $this->assertEmpty($html);
-        // VISIBLEGROUPS mode doesn;t change anything.
+
+        // VISIBLEGROUPS mode doesn't change anything.
         $course->groupmode = VISIBLEGROUPS;
         update_course($course);
         $html = groups_allgroups_course_menu($course, 'someurl.php');
         $this->assertEmpty($html);
-        // NOGROUPS mode should add allparticipants
+
+        // NOGROUPS mode should add allparticipants option
         $course->groupmode = NOGROUPS;
         update_course($course);
         $html = groups_allgroups_course_menu($course, 'someurl.php');
