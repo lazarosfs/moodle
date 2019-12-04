@@ -838,10 +838,12 @@ class core_grouplib_testcase extends advanced_testcase {
         // VISIBLEGROUPS mode doesn;t change anything.
         $course->groupmode = VISIBLEGROUPS;
         update_course($course);
+        $html = groups_allgroups_course_menu($course, 'someurl.php');
         $this->assertEmpty($html);
         // NOGROUPS mode should add allparticipants
         $course->groupmode = NOGROUPS;
         update_course($course);
+        $html = groups_allgroups_course_menu($course, 'someurl.php');
         $this->assertContains(format_string(get_string('allparticipants')),$html);
         
 
