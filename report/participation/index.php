@@ -113,10 +113,11 @@ $select = groups_allgroups_course_menu($course, $baseurl, true, $currentgroup);
 $groupmode = groups_get_course_groupmode($course);
 // User cannot see any group.
 if (empty($select)) {
-	if ($groupmode != NOGROUPS)
-			echo $OUTPUT->heading(get_string("notingroup"));
-	echo $OUTPUT->footer();
-	exit;
+        if ($groupmode != NOGROUPS)
+                echo $OUTPUT->heading(get_string("nopermissiontoshow")); else
+                        echo $OUTPUT->heading(get_string("notingroup"));
+        echo $OUTPUT->footer();
+        exit;
 } else {
     echo $select;
 }
