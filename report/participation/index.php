@@ -30,7 +30,6 @@ require_once($CFG->dirroot.'/report/participation/locallib.php');
 
 define('DEFAULT_PAGE_SIZE', 20);
 define('SHOW_ALL_PAGE_SIZE', 5000);
-define('NOGROUPS', 0);
 
 // Release session lock.
 \core\session\manager::write_close();
@@ -111,9 +110,10 @@ $baseurl = new moodle_url('/report/participation/index.php', array(
 ));
 $select = groups_allgroups_course_menu($course, $baseurl, true, $currentgroup);
 
+$groupmode = groups_get_course_groupmode($course);
 // User cannot see any group.
 if (empty($select)) {
-	if ($course->groupmode != NOGROUPS)
+	if ($groupmode != NOGROUPS)
 		echo $OUTPUT->heading(get_string("notingroup"));
     echo $OUTPUT->footer();
     exit;
@@ -122,7 +122,6 @@ if (empty($select)) {
 }
 
 // Fetch current active group.
-$groupmode = groups_get_course_groupmode($course);
 $currentgroup = $SESSION->activegroup[$course->id][$groupmode][$course->defaultgroupingid];
 
 if (!empty($instanceid) && !empty($roleid)) {
