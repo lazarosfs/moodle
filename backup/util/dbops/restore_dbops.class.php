@@ -1759,9 +1759,22 @@ abstract class restore_dbops {
             }
             $currentfullname = $fullname.$suffixfull;
             $currentshortname = substr($shortname, 0, 100 - strlen($suffixshort)).$suffixshort; // < 100cc
-            $coursefull  = $DB->get_record_select('course', 'fullname = ? AND id != ?',
+            $course = $DB->get_record('course',
+                array('id' => $courseid), '*');
+            if ($course) {
+                $categoryid = $course->category;
+
+                $coursefull  = $DB->get_record_select('course', 'fullname = ? AND id != ? AND category = ?',
+                    array($currentfullname, $courseid, $categoryid), '*', IGNORE_MULTIPLE);
+                $courseshort = $DB->get_record_select('course', 'shortname = ? AND id != ? AND category = ?',
+                    array($currentshortname, $courseid, $categoryid));
+            } else {
+                $coursefull  = $DB->get_record_select('course', 'fullname = ? AND id != ?',
                     array($currentfullname, $courseid), '*', IGNORE_MULTIPLE);
-            $courseshort = $DB->get_record_select('course', 'shortname = ? AND id != ?', array($currentshortname, $courseid));
+                $courseshort = $DB->get_record_select('course', 'shortname = ? AND id != ?',
+                    array($currentshortname, $courseid));
+            }
+
             $counter++;
         } while ($coursefull || $courseshort);
 
