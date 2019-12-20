@@ -205,6 +205,11 @@ if (!empty($source)) {
                 ($target > 2 ? 'EXISTING_DELETING' : 'NEW_COURSE') . ' and mode is ' .
                 $options['mode']);
 
+            if ($target == backup::TARGET_EXISTING_DELETING) {
+                echo "Removing Course content...";
+                remove_course_contents($courseid, false);
+            }
+
             $rc = new restore_controller($backupid, $courseid,
                 backup::INTERACTIVE_NO, $mode, $admin->id, $target);
             $rc->execute_precheck();
