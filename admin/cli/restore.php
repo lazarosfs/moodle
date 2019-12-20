@@ -202,7 +202,7 @@ if (!empty($source)) {
                 $bcinfo->original_course_shortname . ') to (' .
                 $courseshortname . ' with id ' . $courseid . ' in category ' . $categoryid .
                 ') from file ' . $mbzfile . ' (backupid is ' . $backupid . ' target is ' .
-                ($target > 2 ? 'NEW_COURSE' : 'EXISTING_DELETING') . ' and mode is ' .
+                ($target > 2 ? 'EXISTING_DELETING' : 'NEW_COURSE') . ' and mode is ' .
                 $options['mode']);
 
             $rc = new restore_controller($backupid, $courseid,
