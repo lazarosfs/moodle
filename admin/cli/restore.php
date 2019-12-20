@@ -107,15 +107,15 @@ if (!empty($source)) {
         mtrace("Warning: Source is a directory, courseshortname will be ignored.");
     }
 
-    $mode_types = array('general' => backup::MODE_GENERAL, 'hub' => backup::MODE_HUB,
+    $modetypes = array('general' => backup::MODE_GENERAL, 'hub' => backup::MODE_HUB,
         'import' => backup::MODE_IMPORT, 'samesite' => backup::MODE_SAMESITE);
 
     $mode = backup::MODE_GENERAL;
 
     if ($options['mode']) {
-        foreach ($mode_types as $mode_key => $mode_value) {
-            if ($options['mode'] == $mode_key) {
-                $mode = $mode_value;
+        foreach ($modetypes as $modekey => $modevalue) {
+            if ($options['mode'] == $modekey) {
+                $mode = $modevalue;
             }
         }
     }
