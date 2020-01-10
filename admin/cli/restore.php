@@ -227,7 +227,6 @@ if (!empty($source)) {
                     mtrace('precheck '.$type.'['.$index.'] = '.$message);
                 }
             }
-            $rc->destroy();
         }
         $transaction->allow_commit();
         if (rtrim($path, '/') != $CFG->tempdir . '/backup') {
